@@ -1,0 +1,871 @@
+
+body {
+    /*background-color: #999;*/
+    background-image: linear-gradient(to left, rgba(255, 0, 149, 0.2), rgba(0, 247, 255, 0.2))
+}
+
+.navbar-default {
+    border: 0;
+    /*border-color: blue;*/
+}
+
+.navbar-default .navbar-nav > li {
+    font-size: 15px;
+    width: 100%;
+}
+
+.navbar-default .navbar-nav > li > a {
+    color: white;
+    padding: 25px 10px 0 10px;
+}
+
+.dropdown-menu {
+    background-image: linear-gradient(to left, rgba(255, 0, 149, 0.2), rgba(0, 247, 255, 0.2))
+}
+
+.container-fluid {
+    background-color: darkorange;
+}
+
+.navbar-header {
+    width: 100%;
+}
+
+.navbar-brand > img {
+    width: 50px;
+    height: 40px;
+    border-radius: 10px;
+    margin-top: -10px;
+}
+
+.nav_title {
+    text-align: center;
+    line-height: 50px;
+    font-size: 17px;
+    color: blue;
+}
+
+/* 通知方法样式 */
+.notice {
+    position: absolute;
+    right: 20%;
+    top: 55px;
+    width: 70px;
+    height: 30px;
+    line-height: 30px;
+    padding-left: 6px;
+    background-color: white;
+    font-family: "Arial", "Microsoft YaHei", "黑体", "宋体", sans-serif;
+    font-weight: bold;
+    user-select: none;
+    z-index: 9995;
+    border-radius: 30px;
+}
+
+.notice > #notice_font {
+    float: right;
+    color: white;
+    font-size: 12px;
+    margin: 7px 9px 0 0;
+    width: 15px;
+    height: 15px;
+    line-height: 15px;
+    text-align: center;
+    background-color: orangered;
+    border-radius: 40px;
+    z-index: 9998;
+}
+
+.notice > #notice_font:hover {
+    cursor: pointer;
+}
+
+/* 设置弹框默认不显示 */
+.pop_con {
+    display: none;
+}
+
+.pop {
+    width: 40%;
+    padding: 5px 0 5px 0;
+    border: 1px solid greenyellow;
+    background: white;
+    /* 设置固定定位，让弹框相对于浏览器窗口来定位，同时可以盖住其他元素 */
+    position: fixed;
+    /* 定位元素水平垂直居中的技巧 */
+    right: 3%;
+    /*margin-left: -251px;*/
+    top: 23%;
+    margin-top: -130px;
+    border-radius: 8px;
+    /* 将弹框层级设置成一个很大的值，保证它可以盖住其它任何元素 */
+    z-index: 9999;
+}
+
+/* 弹框透明背景样式 */
+.mask {
+    position: fixed;
+    /* 设置为固定定位，宽度和高度就可以参照浏览器窗口的大小来设置 */
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    background: black;
+    /* 设置该属性为 9998 仅比弹框小一级确保除了弹框之外可以盖住所有元素 */
+    z-index: 9998;
+    /* 设置元素的透明度 */
+    opacity: 0.6;
+    /* 透明度兼容 ie 写法 */
+    filter: alpha(opacity=60);
+}
+
+.pop > .notice_info {
+    text-indent: 15px;
+}
+
+.notice_info > #clientName {
+    color: blue;
+}
+
+#rec, .send_btn, .send_mate {
+    color: blue;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+#rec:hover, .send_btn:hover {
+    color: #FF9632;
+    font-size: 13px;
+}
+
+/* 搜索框组 */
+.search_group {
+    width: 100%;
+    padding: 5px 0 5px 0;
+    margin: 0;
+}
+
+ul {
+    list-style-type: none;
+}
+
+.search_form {
+    width: 30%;
+    height: 32px;
+    margin: 0;
+    float: left;
+}
+
+h4 {
+    padding: 0;
+    margin: 0;
+}
+
+.input_text {
+    width: 80%;
+    height: 30px;
+    border: 1px solid #0fad10;
+    /* 清除输入框默认 padding */
+    padding: 0;
+    /* 通过浮动解决内联元素默认间距以及基线对齐的问题 */
+    float: left;
+    /* 让文字缩进 */
+    text-indent: 5px;
+    font-size: 12px;
+    /* 去掉输入框点击时的高亮框 */
+    outline: none;
+    border-bottom-left-radius: 6px;
+    border-top-left-radius: 6px;
+}
+
+.input_sub {
+    width: 20%;
+    height: 30px;
+    background: #0fad10;
+    text-align: center;
+    cursor: pointer;
+    /* 去掉按钮默认边框 */
+    border: 0;
+    float: left;
+    color: white;
+    font-size: 14px;
+    outline: none;
+    border-bottom-right-radius: 6px;
+    border-top-right-radius: 6px;
+}
+
+.active {
+    color: #888;
+    user-select: none;
+}
+
+/* 设置弹框默认不显示 */
+.send_con {
+    display: none;
+}
+
+.send_con > .send {
+    width: 500px;
+    /*height: 300px;*/
+    padding: 5px 0 5px 0;
+    border: 1px solid blue;
+    background: white;
+    /* 设置固定定位，让弹框相对于浏览器窗口来定位，同时可以盖住其他元素 */
+    border-radius: 8px;
+    position: fixed;
+    /* 定位元素水平垂直居中的技巧 */
+    left: 50%;
+    margin-left: -251px;
+    top: 40%;
+    margin-top: -151px;
+    /* 将弹框层级设置成一个很大的值，保证它可以盖住其它任何元素 */
+    z-index: 9999;
+}
+
+/* 弹框透明背景样式 */
+.send_mask {
+    position: fixed;
+    /* 设置为固定定位，宽度和高度就可以参照浏览器窗口的大小来设置 */
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    background: black;
+    /* 设置该属性为 9998 仅比弹框小一级确保除了弹框之外可以盖住所有元素 */
+    z-index: 9998;
+    /* 设置元素的透明度 */
+    opacity: 0.6;
+    /* 透明度兼容 ie 写法 */
+    filter: alpha(opacity=60);
+}
+
+.send_con > .send > .send_info > .send_form {
+    text-indent: 15px;
+}
+
+.send_con > .send > .send_info > .send_title {
+    margin: 0 0 0 200px;
+}
+
+.send_con > .send > .send_info > hr {
+    margin-top: 0;
+}
+
+.send_con > .send > .send_info > .send_form > p > input {
+    width: 70%;
+    height: 30px;
+    border: 1px solid #FF9632;
+    /* 清除输入框默认 padding */
+    padding: 0;
+    /* 去掉输入框点击时的高亮框 */
+    outline: none;
+    border-radius: 6px;
+    text-indent: 15px;
+    font-size: 13px;
+}
+
+.send_con > .send > .send_info > .send_form > .form_sub {
+    width: 60px;
+    height: 30px;
+    background-color: yellowgreen;
+    float: right;
+    margin-right: 40px;
+    border-radius: 5px;
+    outline: none;
+}
+
+.send_con > .send > .send_info > .send_form > p > .form_hide_tag, .ldssNum {
+    display: none;
+}
+
+#explain {
+    float: right;
+    margin-right: 30px;
+    font-size: 12px;
+    user-select: none;
+}
+
+#explain > strong {
+    color: red;
+    user-select: none;
+}
+
+.form_sub {
+    display: none;
+}
+
+/*    接收按钮弹框 css*/
+/* 设置弹框默认不显示 */
+.recv_con {
+    display: none;
+}
+
+.recv_con > .recv {
+    width: 500px;
+    /*height: 300px;*/
+    padding: 5px 0 5px 0;
+    border: 1px solid blue;
+    background: white;
+    /* 设置固定定位，让弹框相对于浏览器窗口来定位，同时可以盖住其他元素 */
+    border-radius: 8px;
+    position: fixed;
+    /* 定位元素水平垂直居中的技巧 */
+    left: 50%;
+    margin-left: -251px;
+    top: 40%;
+    margin-top: -151px;
+    /* 将弹框层级设置成一个很大的值，保证它可以盖住其它任何元素 */
+    z-index: 9999;
+}
+
+/* 弹框透明背景样式 */
+.recv_mask {
+    position: fixed;
+    /* 设置为固定定位，宽度和高度就可以参照浏览器窗口的大小来设置 */
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    background: black;
+    /* 设置该属性为 9998 仅比弹框小一级确保除了弹框之外可以盖住所有元素 */
+    z-index: 9998;
+    /* 设置元素的透明度 */
+    opacity: 0.6;
+    /* 透明度兼容 ie 写法 */
+    filter: alpha(opacity=60);
+}
+
+.recv_con > .recv > .recv_info > .recv_form {
+    text-indent: 15px;
+}
+
+.recv_con > .recv > .recv_info > .recv_title {
+    margin: 0 0 0 200px;
+}
+
+.recv_con > .recv > .recv_info > hr {
+    margin-top: 0;
+}
+
+.recv_con > .recv > .recv_info > .recv_form > p > input {
+    width: 70%;
+    height: 30px;
+    border: 1px solid #FF9632;
+    /* 清除输入框默认 padding */
+    padding: 0;
+    /* 去掉输入框点击时的高亮框 */
+    outline: none;
+    border-radius: 6px;
+    text-indent: 15px;
+    font-size: 13px;
+}
+
+.recv_form > p > textarea {
+    width: 70%;
+    border: 1px solid #FF9632;
+    margin-left: 28px;
+}
+
+.recv_con > .recv > .recv_info > .recv_form > .form_recv {
+    width: 60px;
+    height: 30px;
+    background-color: yellowgreen;
+    float: right;
+    margin-right: 40px;
+    border-radius: 5px;
+    outline: none;
+    display: none;
+}
+
+.recv_con > .recv > .recv_info > .recv_form > p > .form_hide_tag {
+    display: none;
+}
+
+/* 客户id 按钮样式 */
+#cliId, #saleId, #retId {
+    padding: 0 3px 0 3px;
+    cursor: pointer;
+    color: blue;
+}
+
+#cliId:hover, #saleId:hover, #retId:hover {
+    text-decoration: underline;
+    color: #FF9632;
+}
+
+/* 根据用户 id 查看用户数据弹窗 */
+/* 设置弹框默认不显示 */
+.cli_con {
+    display: none;
+}
+
+.cli_con > .cli {
+    width: 500px;
+    /*height: 300px;*/
+    padding: 5px 0 5px 0;
+    border: 1px solid blue;
+    background: white;
+    /* 设置固定定位，让弹框相对于浏览器窗口来定位，同时可以盖住其他元素 */
+    border-radius: 8px;
+    position: fixed;
+    /* 定位元素水平垂直居中的技巧 */
+    left: 50%;
+    margin-left: -251px;
+    top: 40%;
+    margin-top: -151px;
+    /* 将弹框层级设置成一个很大的值，保证它可以盖住其它任何元素 */
+    z-index: 9999;
+}
+
+/* 弹框透明背景样式 */
+.cli_mask {
+    position: fixed;
+    /* 设置为固定定位，宽度和高度就可以参照浏览器窗口的大小来设置 */
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    background: black;
+    /* 设置该属性为 9998 仅比弹框小一级确保除了弹框之外可以盖住所有元素 */
+    z-index: 9998;
+    /* 设置元素的透明度 */
+    opacity: 0.6;
+    /* 透明度兼容 ie 写法 */
+    filter: alpha(opacity=60);
+}
+
+.cli_con > .cli > .cli_info > .cli_form {
+    text-indent: 15px;
+}
+
+.cli_con > .cli > .cli_info > .cli_title {
+    margin: 0 0 0 200px;
+}
+
+.cli_con > .cli > .cli_info > > hr {
+    margin-top: 0;
+}
+
+.cli_con > .cli > .cli_info > .cli_form > p > input, textarea {
+    width: 78%;
+    height: 30px;
+    border: 1px solid #eee;
+    /* 清除输入框默认 padding */
+    padding: 0;
+    /* 去掉输入框点击时的高亮框 */
+    outline: none;
+    border-radius: 6px;
+    background-color: #eee;
+    text-indent: 15px;
+    font-size: 13px;
+}
+
+.cli_con > .cli > .cli_info > .cli_btn {
+    float: right;
+    margin-right: 30px;
+    border-radius: 6px;
+    background-color: #77FFCC;
+}
+
+/*    时间选择框*/
+.layui_group {
+    float: left;
+    width: 540px;
+    margin-left: 10px;
+    overflow: hidden;
+}
+
+/*.layui_group > .layui-inline {*/
+/*    width: 70%;*/
+/*}*/
+
+.layui-input-inline {
+    float: left;
+    margin-left: 5px;
+}
+
+.layui-form-label {
+    font-size: 14px;
+}
+
+.layui-input {
+    width: 138px;
+    background-color: #FFFFBB;
+    outline: 0;
+    border-radius: 6px;
+}
+
+.tishi {
+    font-size: 12px;
+    user-select: none;
+}
+
+.filter {
+    /*width: 40px;*/
+    margin-left: -50px;
+    color: white;
+    float: left;
+    border-radius: 6px;
+    background-color: #0fad10;
+}
+
+.statFrom {
+    width: 26%;
+    height: 30px;
+    margin-left: 5px;
+    float: left;
+}
+
+.choStat {
+    height: 26px;
+    border-radius: 5px;
+    border: 1px solid slateblue;
+    background-color: #FFFFBB;
+}
+
+/* 维修按钮事件弹框 */
+/* 设置弹框默认不显示 */
+.Maintain_con {
+    display: none;
+}
+
+.Maintain_con > .Maintain {
+    width: 500px;
+    /*height: 300px;*/
+    padding: 5px 0 5px 0;
+    border: 1px solid blue;
+    background: white;
+    /* 设置固定定位，让弹框相对于浏览器窗口来定位，同时可以盖住其他元素 */
+    border-radius: 8px;
+    position: fixed;
+    /* 定位元素水平垂直居中的技巧 */
+    left: 50%;
+    margin-left: -251px;
+    top: 40%;
+    margin-top: -151px;
+    /* 将弹框层级设置成一个很大的值，保证它可以盖住其它任何元素 */
+    z-index: 9999;
+}
+
+/* 弹框透明背景样式 */
+.Maintain_mask {
+    position: fixed;
+    /* 设置为固定定位，宽度和高度就可以参照浏览器窗口的大小来设置 */
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    background: black;
+    /* 设置该属性为 9998 仅比弹框小一级确保除了弹框之外可以盖住所有元素 */
+    z-index: 9998;
+    /* 设置元素的透明度 */
+    opacity: 0.6;
+    /* 透明度兼容 ie 写法 */
+    filter: alpha(opacity=60);
+}
+
+.Maintain_con > .Maintain > .Maintain_info > .Maintain_form {
+    text-indent: 15px;
+}
+
+.Maintain_con > .Maintain > .Maintain_info > .Maintain_title {
+    margin: 0 0 0 200px;
+}
+
+.Maintain_con > .Maintain > .Maintain_info > > hr {
+    margin-top: 0;
+}
+
+.Maintain_con > .Maintain > .Maintain_info > .Maintain_form > p > input, textarea {
+    width: 78%;
+    height: 30px;
+    border: 1px solid #eee;
+    /* 清除输入框默认 padding */
+    padding: 0;
+    /* 去掉输入框点击时的高亮框 */
+    outline: none;
+    border-radius: 6px;
+    background-color: #eee;
+    text-indent: 15px;
+    font-size: 13px;
+}
+
+.Maintain_con > .Maintain > .Maintain_info > .Maintain_form > .Maintain_sub {
+    float: right;
+    margin-right: 30px;
+    border-radius: 6px;
+    background-color: #77FFCC;
+}
+
+/* 根据销售 id 查看用户数据弹窗 */
+/* 设置弹框默认不显示 */
+.sale_con {
+    display: none;
+}
+
+.sale_con > .sale {
+    width: 500px;
+    /*height: 300px;*/
+    padding: 5px 0 5px 0;
+    border: 1px solid blue;
+    background: white;
+    /* 设置固定定位，让弹框相对于浏览器窗口来定位，同时可以盖住其他元素 */
+    border-radius: 8px;
+    position: fixed;
+    /* 定位元素水平垂直居中的技巧 */
+    left: 50%;
+    margin-left: -251px;
+    top: 40%;
+    margin-top: -151px;
+    /* 将弹框层级设置成一个很大的值，保证它可以盖住其它任何元素 */
+    z-index: 9999;
+}
+
+/* 弹框透明背景样式 */
+.sale_mask {
+    position: fixed;
+    /* 设置为固定定位，宽度和高度就可以参照浏览器窗口的大小来设置 */
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    background: black;
+    /* 设置该属性为 9998 仅比弹框小一级确保除了弹框之外可以盖住所有元素 */
+    z-index: 9998;
+    /* 设置元素的透明度 */
+    opacity: 0.6;
+    /* 透明度兼容 ie 写法 */
+    filter: alpha(opacity=60);
+}
+
+.sale_con > .sale > .sale_info > .sale_form {
+    text-indent: 15px;
+}
+
+.sale_con > .sale > .sale_info > .sale_title {
+    margin: 0 0 0 200px;
+}
+
+.sale_con > .sale > .sale_info > > hr {
+    margin-top: 0;
+}
+
+.sale_con > .sale > .sale_info > .sale_form > p > input, textarea {
+    width: 78%;
+    height: 30px;
+    border: 1px solid #eee;
+    /* 清除输入框默认 padding */
+    padding: 0;
+    /* 去掉输入框点击时的高亮框 */
+    outline: none;
+    border-radius: 6px;
+    background-color: #eee;
+    text-indent: 15px;
+    font-size: 13px;
+}
+
+/*.sale_con > .sale > .sale_info > .sale_btn {*/
+/*    float: right;*/
+/*    margin-right: 30px;*/
+/*    border-radius: 6px;*/
+/*    background-color: #77FFCC;*/
+/*}*/
+
+/* 发货详情查看发货信息数据弹窗 */
+/* 设置弹框默认不显示 */
+.ret_con {
+    display: none;
+}
+
+.ret_con > .ret {
+    width: 900px;
+    /*height: 300px;*/
+    padding: 5px 0 5px 0;
+    border: 1px solid blue;
+    background: white;
+    /* 设置固定定位，让弹框相对于浏览器窗口来定位，同时可以盖住其他元素 */
+    border-radius: 8px;
+    position: fixed;
+    /* 定位元素水平垂直居中的技巧 */
+    left: 50%;
+    margin-left: -430px;
+    top: 40%;
+    margin-top: -151px;
+    /* 将弹框层级设置成一个很大的值，保证它可以盖住其它任何元素 */
+    z-index: 9999;
+}
+
+/* 弹框透明背景样式 */
+.ret_mask {
+    position: fixed;
+    /* 设置为固定定位，宽度和高度就可以参照浏览器窗口的大小来设置 */
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    background: black;
+    /* 设置该属性为 9998 仅比弹框小一级确保除了弹框之外可以盖住所有元素 */
+    z-index: 9998;
+    /* 设置元素的透明度 */
+    opacity: 0.6;
+    /* 透明度兼容 ie 写法 */
+    filter: alpha(opacity=60);
+}
+
+.ret_con > .ret > .ret_info > .ret_form {
+    padding: 0 15px 0 15px;
+    text-indent: 15px;
+}
+
+.ret_con > .ret > .ret_info > .ret_title {
+    margin: 0 0 0 400px;
+}
+
+.ret_con > .ret > .ret_info > hr {
+    margin: 5px 0 0 0;
+}
+
+.ret_con > .ret > .ret_info > .ret_form > p > input, textarea {
+    width: 78%;
+    height: 30px;
+    border: 1px solid #eee;
+    /* 清除输入框默认 padding */
+    padding: 0;
+    /* 去掉输入框点击时的高亮框 */
+    outline: none;
+    border-radius: 6px;
+    background-color: #eee;
+    text-indent: 15px;
+    font-size: 13px;
+}
+
+/* 错误弹框提示样式 */
+/* 设置弹框默认不显示 */
+.err_con {
+    display: block;
+}
+
+.err_con > .err {
+    width: 500px;
+    /*height: 300px;*/
+    padding: 5px 0 5px 0;
+    border: 1px solid blue;
+    background: white;
+    border-radius: 8px;
+    /* 设置固定定位，让弹框相对于浏览器窗口来定位，同时可以盖住其他元素 */
+    position: fixed;
+    /* 定位元素水平垂直居中的技巧 */
+    left: 50%;
+    margin-left: -251px;
+    top: 40%;
+    margin-top: -151px;
+    /* 将弹框层级设置成一个很大的值，保证它可以盖住其它任何元素 */
+    z-index: 9999;
+}
+
+/* 弹框透明背景样式 */
+.err_mask {
+    position: fixed;
+    /* 设置为固定定位，宽度和高度就可以参照浏览器窗口的大小来设置 */
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    background: black;
+    /* 设置该属性为 9998 仅比弹框小一级确保除了弹框之外可以盖住所有元素 */
+    z-index: 9998;
+    /* 设置元素的透明度 */
+    opacity: 0.6;
+    /* 透明度兼容 ie 写法 */
+    filter: alpha(opacity=60);
+}
+
+.err_con > .err > .err_info {
+    text-indent: 15px;
+}
+
+.err_con > .err > .err_info > hr {
+    margin-top: 0;
+}
+
+.err_con > .err > .err_info > .sale_btn {
+    float: right;
+    margin-right: 30px;
+    border-radius: 6px;
+    background-color: #77FFCC;
+}
+
+.pagination {
+    position: absolute;
+    left: 50%;
+    margin-left: -125px;
+}
+
+.table_wrap {
+    height: 45px;
+}
+
+.table_title {
+    /*height: 60px;*/
+    background-color: #dceef8;
+    width: 100%;
+    margin-bottom: 5px;
+    position: fixed;
+    top: 112px;
+    z-index: 10;
+}
+
+.footer_wrap {
+    height: 30px;
+}
+
+.close {
+    float: right;
+    margin-right: 2px;
+    margin-top: -8px;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    line-height: 30px;
+    color: red;
+}
+
+.client, .edit, .my {
+    font-weight: inherit;
+}
+
+.client {
+    color: forestgreen;
+}
+
+.edit {
+    color: #FF00FF;
+}
+
+.my {
+    color: #9400D3;
+}
+
+/* 导出 excel 按钮样式*/
+.import_excel {
+    width: 80px;
+    position: absolute;
+    right: 30px;
+    margin-bottom: -10px;
+}
+
+.import_excel > .btn {
+    margin-top: -4px;
+    padding: 3px 0;
+    border: 0;
+}
+
+.footer {
+    width: 100%;
+    color: white;
+    float: left;
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+    /*margin-bottom: 20px;*/
+}

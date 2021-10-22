@@ -1,0 +1,631 @@
+{{define "template/index.html"}}
+<!doctype html>
+<html lang="zh_CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+          integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+    <!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css"
+          integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"
+            integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd"
+            crossorigin="anonymous"></script>
+    <script type="application/javascript" src="/static/js/jquery-1.12.4.min.js"></script>
+    <link type="image/x-ico" rel="icon" href="/static/img/title.ico">
+    <link rel="stylesheet" href="/static/css/index.css">
+    <title>{{.title}}</title>
+</head>
+<body>
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/">
+                <img alt="Brand" src="/static/img/logo.jpg" id="brand">
+            </a>
+            <div class="nav_title">链力电子售后追踪平台</div>
+        </div>
+    </div>
+</nav>
+<div class="col-md-3">
+    <div class="panel panel-success">
+        <div class="panel-heading">
+            <h3 class="panel-title">菜单选项</h3>
+        </div>
+        <div class="panel-body menu">
+            <p id="create_work">返修工单</p>
+            <p id="return_goods">退货处理</p>
+            <p id="my_work">我的工单</p>
+        </div>
+    </div>
+</div>
+<div class="col-md-9">
+    <div class="selectAddr" style="display: none;">
+        <label>选择销售人员查看寄收地址：</label>
+        <select>
+            <option></option>
+            {{range .sales}}
+            <option value="{{.SaleName}}_{{.Phone}}">
+                {{.SaleName}}
+            </option>
+            {{end}}
+        </select>
+    </div>
+    <div class="lianLiAddr"><span></span></div>
+    <div class="panel panel-info lgs">
+        <div class="panel-heading">物流信息</div>
+        <div class="panel-body lgs_info">
+            <button id="lgs_btn">添加物流</button>
+            <div class="lgs_input">
+                <div class="input-group">
+                    <span class="input-group-addon">物流单号</span>
+                    <input type="text" name="lgsNum" class="form-control" placeholder="请真实填写物流单号,最大16位">
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon">物流公司</span>
+                    <input type="text" name="lgsName" class="form-control" placeholder="输入物流公司名称">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-info mater">
+        <div class="panel-heading">
+            <h3 class="panel-title">物料信息</h3>
+        </div>
+        <div class="panel-body mater_group">
+            <button id="mater_btn">添加物料</button>
+            <!--            <button id="add_row">添加行</button>-->
+            <table class="table table-hover table-condensed mater_table">
+                <tr>
+                    <th>货物名称</th>
+                    <th>数量</th>
+                    <th>不良因素</th>
+                    <th>销售员</th>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="text" name="materName" class="form-control" placeholder="如有多种请写明每样的数量">
+                    </td>
+                    <td>
+                        <input type="text" name="mateNum" class="form-control" placeholder="输入物件数量，无需单位">
+                    </td>
+                    <td>
+                        <textarea rows="1" name="badRea" cols="20" class="form-control" placeholder="请详细不良原因,方便我们可以快速为您定位问题并处理"></textarea>
+                    </td>
+                    <td>
+                        <select name="saleId" class="form-control">
+                            <option></option>
+                            {{range .sales}}
+                            <option value="{{.Sid}}">{{.SaleName}}</option>
+                            {{end}}
+                        </select>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="panel panel-info return_group">
+        <div class="panel-heading">
+            <h3 class="panel-title">返回信息</h3>
+        </div>
+        <div class="panel-body return_pan">
+            <button id="return_btn">添加地址</button>
+            {{range .client}}
+            <div class="input-group return_Id">
+                <span>客户ID：</span>
+                <input type="text" name="returnId" class="form-control" value="{{.Cid}}" readonly>
+            </div>
+            <div class="input-group return_Name">
+                <span>收货人：</span>
+                <input type="text" name="returnName" class="form-control" value="{{.UserName}}" readonly>
+            </div>
+            <div class="input-group return_phone">
+                <span>电&nbsp;&nbsp;&nbsp;&nbsp;话：</span>
+                <input type="text" name="returnPhone" class="form-control" value="{{.Phone}}" readonly>
+            </div>
+            <div class="input-group return_addr">
+                <span>地&nbsp;&nbsp;&nbsp;&nbsp;址：</span>
+                {{if .Address}}
+                <input type="text" name="returnAddr" class="form-control" value="{{.Address}}">
+                {{else}}
+                <input type="text" name="returnAddr" class="form-control" placeholder="请输入真实地址，此地址将作为我们给您返回物品时所用">
+                {{end}}
+            </div>
+            {{end}}
+        </div>
+    </div>
+    <div class="panel panel-info return_goods">
+        <div class="panel-heading">
+            <h3 class="panel-title">退货工单</h3>
+        </div>
+        <div class="panel-body">
+            <form action="/return/retGoods" class="goods_table" method="POST">
+                <p class="input-group">
+                    <label class="input-group-addon">快递单号:</label>
+                    <input type="text" name="ldss_num" class="form-control" placeholder="请输入快递单号">
+                </p>
+                <p class="input-group">
+                    <label class="input-group-addon">快递公司:</label>
+                    <input type="text" name="ldss_name" class="form-control" placeholder="请输入快递公司名称">
+                </p>
+                <p class="input-group">
+                    <label class="input-group-addon">商品名称:</label>
+                    <input type="text" name="mate_name" class="form-control" placeholder="请输入退货的商品名称,如有多种请写明每样的数量">
+                </p>
+                <p class="input-group">
+                    <label class="input-group-addon">退货数量:</label>
+                    <input type="text" name="renum" class="form-control" placeholder="请输入退货的商品数量">
+                </p>
+                <p>
+                    <label>退货原因:</label>
+                    <textarea rows="1" name="badRea" cols="20" class="form-control" placeholder="请详细描述退货原因"></textarea>
+                </p>
+                <p class="input-group">
+                    <label class="input-group-addon">对接销售:</label>
+                    <select name="saleId" style="height: 29px;background-color: #fff; width: 100%;margin-left: 5px">
+                        {{range .sales}}
+                        <option value="{{.Sid}}">{{.SaleName}}</option>
+                        {{end}}
+                    </select>
+                </p>
+                <!--                <input type="submit" value="提交" class="return_btn">-->
+                <botton class="return_btn">提交</botton>
+            </form>
+        </div>
+    </div>
+    <div class="panel panel-info my_info">
+        <div class="panel-heading">
+            <h3 class="panel-title">工单信息</h3>
+        </div>
+        <div class="panel-body my_group">
+            <span id="hint">提示: 完成类别中包含已返回但您尚未收到货的商品数据,带颜色的字体为已返回或以完成工单,快递单号为返回单号!</span>
+            <ul class="workOrder">
+                <li id="allBtn" onclick="allBtn(this)">全部</li>
+                <li id="issue" onclick="issue(this)">发出</li>
+                <li id="recv" onclick="recv(this)">已收</li>
+                <!--                <li id="over" onclick="over(this)">返途</li>-->
+                <li id="returnBtn" onclick="returnBtn(this)">完成</li>
+            </ul>
+            <div class="table_excel"></div>
+            <div id="scrollTable">
+                <table class="thead">
+                    <col width="14.28%"></col>
+                    <col width="14.28%"></col>
+                    <col width="14.28%"></col>
+                    <col width="14.28%"></col>
+                    <col width="14.28%"></col>
+                    <col width="14.28%"></col>
+                    <col width="14.28%"></col>
+                    <tbody>
+                    <tr>
+                        <th>物流单号</th>
+                        <th>物流名称</th>
+                        <th>商品名称</th>
+                        <th>发出数量</th>
+                        <th>我司实收</th>
+                        <th>以返数量</th>
+                        <th>返厂时间</th>
+                        <!--                        <th>工单状态</th>-->
+                    </tr>
+                    </tbody>
+                </table>
+                <div>
+                    <table class="tbody">
+                        <col width="14.28%"></col>
+                        <col width="14.28%"></col>
+                        <col width="14.28%"></col>
+                        <col width="14.28%"></col>
+                        <col width="14.28%"></col>
+                        <col width="14.28%"></col>
+                        <col width="14.28%"></col>
+                        <tbody class="table_data">
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!--            </div>-->
+        </div>
+    </div>
+</div>
+
+<div class="err_con">
+    <!-- 弹框内容 -->
+    <div class="err">
+        <div class="err_info">
+            {{.errMsg}}
+        </div>
+        <hr>
+        <button class="err_btn">返回</button>
+    </div>
+    <!-- 该 div 用来设置弹框的整个背景，即弹框透明的部分 -->
+    <div class="err_mask"></div>
+</div>
+
+<div class="sub">
+    <button id="sub_btn">提交</button>
+</div>
+
+<!-- 弹框通知,登录成功有通知直接弹框先确认接收数量，以防止滞后 -->
+{{if .pstate}}
+<div class="recv_con">
+    <!-- 弹框内容 -->
+    <div class="recv">
+        <div class="recv_info">
+            <h3 class="recv_title">接收信息</h3>
+            <hr>
+            <span id="hint_info">以下信息为我司收到的实物信息,需要您进行确认, 如有疑问请及时与我司售后进行确认，售后电话:<strong>18025907087</strong>, 感谢您的配合.谢谢！</span>
+            <hr>
+            <form action="/admin/paid_confirm" method="post" class="recv_form" name="recv_form">
+                {{range .paidInfo}}
+                <p>
+                    <label class="form_hide_tag">客户ID：</label>
+                    <input class="form_hide_tag" type="text" name="clientId" value="{{.ClientId}}" readonly>
+                </p>
+                <p>
+                    <label class="">快递单号：</label>
+                    <input type="text" name="ldssnum" value="{{.LdssNum}}" readonly>
+                </p>
+                <p>
+                    <label>货物名称：</label>
+                    <input type="text" name="mateinfo" value="{{.MateInfo}}" readonly>
+                </p>
+                <p>
+                    <label>发出数量：</label>
+                    <input type="text" name="send_num" value="{{.Amount}}" readonly>
+                </p>
+                <p>
+                    <label>我司实收：</label>
+                    <input type="text" name="paid_num" value="{{.Paid}}" readonly>
+                </p>
+                {{end}}
+                <input type="submit" value="确认" class="form_recv">
+            </form>
+        </div>
+    </div>
+    <!-- 该 div 用来设置弹框的整个背景，即弹框透明的部分 -->
+    <div class="recv_mask"></div>
+</div>
+{{else}}{{end}}
+
+<div class="footer">
+    <p>© 链力电子有限公司</p>
+</div>
+</body>
+<script type="application/javascript">
+    $("#my_work").click(function () {
+        $(".lianLiAddr,.return_goods,.lgs,.mater,.return_group,#sub_btn").css("display", "none");
+        $(".my_info").css("display", "block");
+    });
+    // 点击返修工单按钮事件
+    $("#create_work").click(function () {
+        $(".selectAddr").css("display", "block")
+        $(".return_goods,.my_info").css("display", "none")
+        $(".lianLiAddr span").css("display", "none")
+        $(".lianLiAddr,.lgs,.mater,.return_group,#sub_btn").css("display", "block");
+        // 检测选择框是否有内容，有则显示地址
+        let selectVal = $(".selectAddr option:selected").text();
+        if (selectVal !== "") {
+            let select = $(".selectAddr select");  // 选择框
+            let arr = select.val().split("_");
+            $(".lianLiAddr").children("span").text("寄收地址：广东省.东莞市.清溪镇.长山头柜场路55号《东莞市链力电子有限公司》收，收货人：" + arr[0] + " ，联系方式：18025907087").css("display", "block");
+        }
+    });
+    // 选择销售人员查看返修地址
+    let sltState = ""
+    $(".selectAddr").change(() => {
+        let addr = $(".lianLiAddr span");  // 地址信息
+        // addr.css("display", "block");
+        let select = $(".selectAddr select");  // 选择框
+        sltState = select.val()
+        if (sltState === "") {
+            addr.css("display", "none");
+        }
+        let arr = select.val().split("_");
+        if (arr[0] === "" || arr[1] === "") {
+            $(".lianLiAddr").children("span").text("未选择销售人员，请选择 ———> ▲").css("display", "block");
+        } else {
+            $(".lianLiAddr").children("span").text("寄收地址：广东省.东莞市.清溪镇.长山头柜场路55号《东莞市链力电子有限公司》收，收货人：" + arr[0] + " ，联系方式：18025907087").css("display", "block");
+        }
+    });
+    // 退货处理按钮事件
+    $("#return_goods").click(function () {
+        $(".selectAddr").css("display", "none");
+        $(".my_info,.lgs,.mater,.return_group,#sub_btn").css("display", "none");
+        $(".return_goods").css("display", "block");
+        if (sltState === "") {
+            $(".lianLiAddr").children("span").text("寄收地址：广东省.东莞市.清溪镇.长山头工业区柜场路55号《东莞市链力电子有限公司》收 , 收货人:链力仓库 , 联系方式:13724314121").css("display", "block");
+        } else {
+            $(".lianLiAddr").children("span").text("寄收地址：广东省.东莞市.清溪镇.长山头工业区柜场路55号《东莞市链力电子有限公司》收 , 收货人:链力仓库 , 联系方式:13724314121").css("display", "block");
+        }
+    });
+
+    $("#lgs_btn").click(function () {
+        $(".lgs_input").css("display", "block");
+    });
+    // 添加工单中物料行数，
+    $("#mater_btn").click(function () {
+        $(".mater_table").css("display", "table");  // ,#add_row
+    });
+    $("#return_btn").click(function () {
+        $(".return_Name,.return_phone,.return_addr").css("display", "block");
+    });
+
+    // 点击接收信息背面隐藏整个接收信息
+    $(".recv_mask").click(function () {
+        $(".recv_con").css("display", "none")
+    });
+
+    $("#sub_btn").click(function () {
+        let lgs = $(".lgs_input").children('div')
+        let mate = $(".mater_table").find("tr").find("td")
+        let client = $(".return_pan").children("div")
+        if ($(".selectAddr select").val() === "") {
+            alert("根据销售人员查看寄收地址尚未选择，请返回重新选择");
+            return;
+        }
+
+        lgsNum = lgs.children('input[name="lgsNum"]').val();
+        lgsName = lgs.children('input[name="lgsName"]').val();
+        if (!lgsNum || !lgsName) {
+            alert("物流信息不允许留空，请返回重填写！")
+            return
+        }
+        // 获取表格数据值方法
+        mateName = mate.children("input[name='materName']").val()
+        mateNum = mate.children("input[name='mateNum']").val()
+        badRea = mate.children("textarea[name='badRea']").val()
+        saleId = mate.children("select[name='saleId']").find('option:selected').val()
+        if (!mateName || !mateNum || !badRea || !saleId) {
+            alert("物料信息不允许留空，请返回重填写！")
+            return
+        }
+        clientId = client.children("input[name='returnId']").val()
+        clientAddr = client.children("input[name='returnAddr']").val()
+        if (!clientAddr) {
+            alert("返回地址不允许为空，请返回重填写！")
+            return
+        }
+        $.ajax({
+            url: "/",
+            type: "POST",
+            data: {
+                // 物流数据信息
+                lgsNum: lgs.children('input[name="lgsNum"]').val(),
+                lgsName: lgs.children('input[name="lgsName"]').val(),
+                // 物料表格数据信息
+                mateName: mate.children("input[name='materName']").val(),
+                mateNum: mate.children("input[name='mateNum']").val(),
+                badRea: mate.children("textarea[name='badRea']").val(),
+                saleId: mate.children("select[name='saleId']").find('option:selected').val(),
+                // 返回数据信息
+                clientId: client.children("input[name='returnId']").val(),
+                clientAddr: client.children("input[name='returnAddr']").val(),
+            },
+            success: function (data) {
+                if (data["errMsg"]) {
+                    alert(data["errMsg"])
+                }
+                if (data["success"]) {
+                    window.location.href = "/"
+                    alert(data["success"])
+                }
+            },
+        })
+    });
+
+    //  新增确认收货事件 ==================================================
+    function receipt(val) {
+        // console.log($(val).parent("li").prevAll().eq(7).children("#ldssNum").text())
+        $.ajax({
+            url: "/",
+            type: "PUT",
+            data: {
+                "ldssNum": $(val).parent("li").prevAll().eq(7).children("#ldssNum").text(),
+            },
+            success: function (val) {
+                if (val["errMsg"]) {
+                    alert(val["errMsg"])
+                }
+                if (val["success"]) {
+                    alert(val["success"])
+                    window.location.href = "/"
+                }
+            },
+        });
+    }
+
+    // 退货工单模块按钮处理方法
+    $(".return_btn").click(function () {
+        let goods_group = $(".goods_table").children("p")
+        let ldss_num = goods_group.children("input[name='ldss_num']").val();
+        let ldss_name = goods_group.children("input[name='ldss_name']").val();
+        let mate_name = goods_group.children("input[name='mate_name']").val();
+        let retNum = goods_group.children("input[name='renum']").val();
+        let badrea = goods_group.children("textarea[name='badRea']").val();
+        let saleId = goods_group.children("select[name='saleId']").find('option:selected').val();
+        let replaceId = goods_group.children("select[name='replace']").find('option:selected').val();
+        if (ldss_num === "" || ldss_name === "" || mate_name === "" || retNum === "" || badrea === "") {
+            $(".err_con").css("display", "block")
+            $(".err_info").text("错误：信息填写不完整，请返回重新填写")
+            return;
+        }
+        if (replaceId === "0") {
+            alert("是否更换为必选项，请返回重新填写");
+            return;
+        } else {
+            // TODO 如果为是则获取返回地址信息
+        }
+
+        $.ajax({
+            url: "/return/retGoods",
+            type: "POST",
+            data: {
+                ldss_num: ldss_num,
+                ldss_name: ldss_name,
+                mate_name: mate_name,
+                renum: retNum,
+                badrea: badrea,
+                sale_id: saleId,
+            },
+            success: function (data) {
+                if (data["success"]) {
+                    $(".err_con").css("display", "block");
+                    $(".err_info").text(data["errMsg"]);
+                    window.location.href = "/";
+                }
+                if (data["errMsg"]) {
+                    alert(data["errMsg"])
+                }
+            },
+        });
+    });
+
+    // 点击错误弹窗返回按钮后回到原始状态
+    $('.err_btn').click(function () {
+        $(".return_goods,.lianLiAddr").css("display", "block");
+        $(".return_group,.mater,.lgs").css("display", "none");
+        window.location.href = "/";
+    });
+
+    // 退货工单中选择是否换货选择框事件
+    function test_replace() {
+        let val = $("#replace option:selected").text();
+        if (val === "是") {
+            $(".returnInfo").css("display", "block");
+        } else {
+            $(".returnInfo").css("display", "none");
+        }
+    }
+
+    // 工单中返回按钮事件
+    function returnBtn(val) {
+        $(val).css("color", "#0066FF");
+        $("#over").css("color", "");
+        $("#recv").css("color", "");
+        $("#issue").css("color", "");
+        $("#allBtn").css("color", "");
+        getData($(val).text());
+    }
+
+    // 工单中已收按钮事件
+    function recv(val) {
+        $(val).css("color", "#0066FF");
+        $("#over").css("color", "");
+        $("#returnBtn").css("color", "");
+        $("#issue").css("color", "");
+        $("#allBtn").css("color", "");
+        getData($(val).text());
+    }
+
+    // 工单中发出按钮事件
+    function issue(val) {
+        $(val).css("color", "#0066FF");
+        $("#over").css("color", "");
+        $("#returnBtn").css("color", "");
+        $("#recv").css("color", "");
+        $("#allBtn").css("color", "");
+        getData($(val).text());
+    }
+
+    // 工单中全部按钮事件
+    function allBtn(val) {
+        $(val).css("color", "#0066FF");
+        $("#over").css("color", "");
+        $("#returnBtn").css("color", "");
+        $("#recv").css("color", "");
+        $("#issue").css("color", "");
+        getData($(val).text());
+    }
+
+    function getData(reqType) {
+        let type = ""
+        // 0 为返厂状态，1为已收状态，3为完成
+        if (reqType === "全部") {
+            type = "6"
+        } else if (reqType === "发出") {
+            type = "0"
+        } else if (reqType === "已收") {
+            type = "1"
+        } else if (reqType === "完成") {
+            type = "3"
+        }
+        $.ajax({
+            type: "GET",
+            url: "/getWorkOrder",
+            data: {
+                type: type,
+            },
+            success: function (data) {
+                if (data["success"]) {
+                    $("#scrollTable").css("display", "block");
+                    $("#hint_span").css("display", "none");
+                    let str = ""
+                    if (data["success"] !== "null") {
+                        // str = `
+                        // <thead>
+                        //     <tr>
+                        //         <th>物流单号</th>
+                        //         <th>物流名称</th>
+                        //         <th>商品名称</th>
+                        //         <th>发出数量</th>
+                        //         <th>我司实收</th>
+                        //         <th>返厂时间</th>
+                        //         <th>工单状态</th>
+                        //     </tr>
+                        // </thead>`
+                        for (val in data["success"]) {
+                            if (data["success"][val]["status"] === 3) {
+                                str += `
+                                    <tr>
+                                        <td style="color: green;">` + data["success"][val]["ldssnum"] + `</td>
+                                        <td style="color: green;">` + data["success"][val]["ret_ldssname"] + `</td>
+                                        <td style="color: green;">` + data["success"][val]["mateInfo"] + `</td>
+                                        <td style="color: green;">` + data["success"][val]["amount"] + `</td>
+                                        <td style="color: green;">` + data["success"][val]["paid"] + `</td>
+                                        <td style="color: green;">` + data["success"][val]["sentnum"] + `</td>
+                                        <td style="color: green;">` + data["success"][val]["ret_date"] + `</td>
+<!--                                        <td>` + data["success"][val]["status"] + `</td>-->
+                                    </tr>`;
+                                $(".table_data").empty().append(str);
+                            } else {
+                                str += `
+                                    <tr>
+                                        <td>` + data["success"][val]["ldssnum"] + `</td>
+                                        <td>` + data["success"][val]["lgss"] + `</td>
+                                        <td>` + data["success"][val]["mateInfo"] + `</td>
+                                        <td>` + data["success"][val]["amount"] + `</td>
+                                        <td>` + data["success"][val]["paid"] + `</td>
+                                        <td>` + data["success"][val]["sentnum"] + `</td>
+                                        <td>` + data["success"][val]["date"] + `</td>
+<!--                                        <td>` + data["success"][val]["status"] + `</td>-->
+                                    </tr>`;
+                                $(".table_data").empty().append(str);
+                            }
+                        }
+                    } else {
+                        str = `<span id="hint_span" style='color: orange;margin: 5px 0 0 20px;'>
+                            当前类别您尚没有数据信息!
+                            </span>`;
+                        // $(".table_data").empty();
+                        $("#scrollTable").css("display", "none");
+                        $(".table_excel").empty().append(str);
+                    }
+                }
+                if (data["errMsg"]) {
+                    alert(data["errMsg"])
+                }
+            },
+        });
+    }
+</script>
+</html>
+{{end}}

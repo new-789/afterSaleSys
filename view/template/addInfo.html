@@ -1,0 +1,256 @@
+{{define "template/addInfo.html"}}
+<!doctype html>
+<html lang="zh_CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+          integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+    <!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css"
+          integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"
+            integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd"
+            crossorigin="anonymous"></script>
+    <script type="application/javascript" src="/static/js/jquery-1.12.4.min.js"></script>
+    <link type="image/x-ico" rel="icon" href="/static/img/title.ico">
+    <title>{{.title}}</title>
+    <style type="text/css">
+        .navbar-default {
+            border-color: blue;
+        }
+
+        .container-fluid {
+            background-color: darkorange;
+        }
+
+        .navbar-header {
+            width: 100%;
+        }
+
+        .navbar-brand > img {
+            width: 35px;
+            height: 30px;
+            border-radius: 5px;
+            margin-top: -6px;
+        }
+
+        .nav_title {
+            text-align: center;
+            line-height: 50px;
+            font-size: 17px;
+            color: blue;
+        }
+
+        .pop {
+            width: 400px;
+
+            padding: 5px 0 5px 0;
+            border: 2px solid orange;
+            background: #666;
+            /* 设置固定定位，让弹框相对于浏览器窗口来定位，同时可以盖住其他元素 */
+            position: fixed;
+            /* 定位元素水平垂直居中的技巧 */
+            left: 50%;
+            margin-left: -200px;
+            top: 50%;
+            margin-top: -130px;
+            border-radius: 8px;
+            /* 将弹框层级设置成一个很大的值，保证它可以盖住其它任何元素 */
+            z-index: 9999;
+        }
+
+        .pop > h4 {
+            /*text-align: center;*/
+            color: white;
+            line-height: 15px;
+            margin-left: 15px;
+        }
+
+        hr {
+            margin: 10px 0 10px 0;
+        }
+
+        .pop > .login_pop {
+            width: 500px;
+            padding: 5px 0 5px 0;
+            /*background: #1b1f23;v*/
+            /*margin-top: 2px;*/
+            /*margin-left: 5px;*/
+        }
+
+        .login_pop > .form > p {
+            margin-left: 50px;
+            color: white;
+            font-size: 18px;
+            margin-bottom: 2px;
+        }
+
+        button, input, optgroup, select, textarea {
+            color: #333333;
+        }
+
+        .login_pop > .form > #username > input, #phone > input {
+            width: 230px;
+            height: 30px;
+            border: 1px solid dodgerblue;
+            border-radius: 6px;
+            font-size: 14px;
+            margin-top: 2px;
+            text-indent: 10px;
+        }
+
+        .login_pop > .form > #address > input {
+            width: 280px;
+            height: 30px;
+            border: 1px solid dodgerblue;
+            border-radius: 6px;
+            font-size: 14px;
+            margin-top: 2px;
+        }
+
+        input:focus {
+            outline-color: slateblue;
+            border: 1px solid;
+        }
+
+        .login_pop > #btn {
+            width: 60px;
+            height: 30px;
+            background: #28a745;
+            border: 0;
+            color: white;
+            font-size: 16px;
+            float: right;
+            margin-right: 120px;
+            margin-top: 10px;
+            border-radius: 6px;
+        }
+
+        .login_pop > .form > #btn > input:hover {
+            background: #34d058;
+            color: #333;
+        }
+
+        .login_pop > .form > #err {
+            color: red;
+            margin-left: 50px;
+            font-size: 14px;
+        }
+
+        /* 弹框透明背景样式 */
+        .mask {
+            position: fixed;
+            /* 设置为固定定位，宽度和高度就可以参照浏览器窗口的大小来设置 */
+            width: 100%;
+            height: 100%;
+            left: 0;
+            top: 0;
+            background: black;
+            /* 设置该属性为 9998 仅比弹框小一级确保除了弹框之外可以盖住所有元素 */
+            z-index: 9998;
+            /* 设置元素的透明度 */
+            opacity: 0.7;
+            /* 透明度兼容 ie 写法 */
+            filter: alpha(opacity=40);
+        }
+
+        .mask > img {
+            width: 100%;
+            height: 100%;
+        }
+
+        #errMsg {
+            margin-left: 140px;
+            color: orangered;
+            font-size: 12px;
+        }
+
+        .usernameErrMsg, .phoneErrMsg, #sqlErrMsg {
+            color: orangered;
+            margin-left: 143px;
+            font-size: 14px;
+        }
+
+        /* 设置弹框默认不显示 */
+        .pop_con {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">
+                <img alt="Brand" src="/static/img/logo.jpg" id="brand">
+            </a>
+            <div class="nav_title">链力电子售后追踪平台</div>
+        </div>
+    </div>
+</nav>
+<!-- 使用 div 标签将弹框内容包裹，用来显示和隐藏弹框，当点击某按钮时为该标签添加 style="display:block;" 属性则显示弹框 -->
+<div class="pop_con" style="display:block;">
+    <!-- 弹框内容 -->
+    <div class="pop">
+        <h4>东莞市链力电子有限公司</h4>
+        <hr>
+        <div class="login_pop">
+            <form method="post" class="form">
+                <p id="username">姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名：
+                    <input type="text" name="username" placeholder="请填写您的真实姓名">
+                </p>
+                <span class="usernameErrMsg">{{.usernameErrMsg}}</span>
+                <p id="phone">联系方式：
+                    <input type="text" name="phone" placeholder="请输入您常用的电话号码">
+                </p>
+                <span class="phoneErrMsg">{{.phoneErrMsg}}</span>
+                <span id="errMsg"></span>
+            </form>
+            <button id="btn">提交</button>
+            <span id="sqlErrMsg"></span>
+        </div>
+    </div>
+    <!-- 该 div 用来设置弹框的整个背景，即弹框透明的部分 -->
+    <div class="mask"></div>
+</div>
+</body>
+<script type="application/javascript">
+    $("#btn").click(function () {
+        var username = $("#username").children("input").val()
+        var phone = $("#phone").children("input").val()
+        $.ajax({
+            url: "/add_info",
+            type: "POST",
+            data: {
+                username: username,
+                phone: phone
+            },
+            success: function (data) {
+                if (data["usernameErrMsg"]) {
+                    $(".usernameErrMsg").text(data["usernameErrMsg"])
+                    $(".phoneErrMsg").text("")
+                } else if (data["phoneErrMsg"]) {
+                    $(".phoneErrMsg").text(data["phoneErrMsg"])
+                    $(".usernameErrMsg").text("")
+                } else if (data["sqlErrMsg"]) {
+                    $("#sqlErrMsg").text(data["sqlErrMsg"])
+                    $(".phoneErrMsg").text("")
+                    $(".usernameErrMsg").text("")
+                }
+                if (data["success"]) {
+                    window.location.href="/"
+                }
+            },
+        });
+    });
+</script>
+</html>
+{{end}}

@@ -1,0 +1,562 @@
+li {
+    list-style-type: none;
+}
+
+ul {
+    padding: 0;
+}
+
+.navbar {
+    margin-bottom: 5px;
+}
+
+.nav-bar {
+    background-color: deepskyblue;
+}
+
+.container-fluid .navbar-brand, .navbar-default .navbar-nav > li > a {
+    color: white;
+}
+
+.row .row-left {
+    background-color: deepskyblue;
+    left: 5px;
+    color: white;
+    border-right: 1px solid orangered;
+}
+
+.row .row-left li {
+    text-align: center;
+    padding: 3px 0 3px 0;
+}
+
+.row .row-left li:hover {
+    background-color: gold;
+}
+
+.row .row-left a {
+    color: white;
+    line-height: 20px;
+    font-size: 16px;
+}
+
+.row .row-left a:hover {
+    color: black;
+    line-height: 20px;
+    font-size: 16px;
+    text-decoration: none;
+}
+
+.row .row-head {
+    background-color: deepskyblue;
+    left: 10px;
+    height: 30px;
+    float: right;
+    right: 10px;
+}
+
+.row .row-head a {
+    line-height: 30px;
+    color: white;
+}
+
+.row-head li {
+    float: left;
+}
+
+.row .row-right {
+    float: right;
+    right: 5px;
+}
+
+.table .status {
+    color: limegreen;
+}
+
+.choice > li > a {
+    padding: 0;
+}
+
+.dropdown-menu > li > span {
+    display: block;
+    padding: 3px 20px;
+    clear: both;
+    font-weight: 400;
+    line-height: 1.42857143;
+    color: #333;
+    white-space: nowrap;
+}
+
+.choice #wallet {
+    margin: auto;
+}
+
+/* 主页样式表 */
+body {
+    background-image: linear-gradient(to left, rgba(255, 0, 149, 0.2), rgba(0, 247, 255, 0.2));
+}
+
+ul, li {
+    list-style: none;
+    margin-bottom: 8px;
+}
+
+.navbar-default {
+    border: 0;
+}
+
+.container-fluid {
+    background-color: darkorange;
+}
+
+.navbar-header {
+    width: 100%;
+}
+
+.navbar-brand > img {
+    width: 40px;
+    height: 35px;
+    border-radius: 5px;
+    margin-top: -8px;
+}
+
+.nav_title {
+    text-align: center;
+    line-height: 50px;
+    font-size: 17px;
+    color: blue;
+    font-family: "Arial", "Microsoft YaHei", "黑体", "宋体", sans-serif;
+}
+
+.menu > p {
+    text-indent: 30px;
+    padding: 5px 0 5px 0;
+    /*border-left: 3px solid #FF9632;*/
+}
+
+.menu > p:hover {
+    border-left: 3px solid #FF9632;
+    background-color: #d9edf7;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.lgs_info > #lgs_btn, .mater_group > #mater_btn { /*#add_row */
+    width: 80px;
+    height: 30px;
+    background-color: #d0e9c6;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.lgs_input > .input-group {
+    margin-bottom: 10px;
+}
+
+.return_pan > #return_btn {
+    width: 80px;
+    height: 30px;
+    background-color: #d0e9c6;
+    /*border: 1px solid;*/
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.lgs, .mater, .return_group, .lgs_input, .mater_table, .return_Name, .return_phone, .return_addr, #sub_btn, .my_info { /*, #add_row*/
+    display: none;
+}
+
+.return_pan {
+    overflow: hidden;
+}
+
+.return_Name > span, .return_phone > span, .return_addr > span {
+    width: 10%;
+    height: 43px;
+    line-height: 43px;
+    float: left;
+}
+
+.clientId, .return_Id, .return_Id > span, .return_Id > input {
+    display: none;
+}
+
+.return_Name > .form-control, .return_phone > .form-control, .return_addr > .form-control {
+    float: right;
+    width: 90%;
+    margin-bottom: 10px;
+}
+
+.sub > button {
+    width: 120px;
+    height: 45px;
+    line-height: 45px;
+    text-align: center;
+    font-size: 16px;
+    float: right;
+    margin-right: 20px;
+    background-color: limegreen;
+    border-radius: 8px;
+}
+
+.lianLiAddr {
+    width: 100%;
+    padding: 1px 0 1px 0;
+    margin: 5px 10px 10px 0;
+    background-color: #fff;
+    color: #9400D3;
+}
+
+/* 设置弹框默认不显示 */
+.recv_con {
+    display: block;
+}
+
+.recv_con > .recv {
+    width: 500px;
+    /*height: 300px;*/
+    padding: 5px 0 5px 0;
+    border: 1px solid orange;
+    background: white;
+    /* 设置固定定位，让弹框相对于浏览器窗口来定位，同时可以盖住其他元素 */
+    border-radius: 8px;
+    position: fixed;
+    /* 定位元素水平垂直居中的技巧 */
+    left: 50%;
+    margin-left: -251px;
+    top: 40%;
+    margin-top: -151px;
+    /* 将弹框层级设置成一个很大的值，保证它可以盖住其它任何元素 */
+    z-index: 9999;
+}
+
+/* 弹框透明背景样式 */
+.recv_mask {
+    position: fixed;
+    /* 设置为固定定位，宽度和高度就可以参照浏览器窗口的大小来设置 */
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    background: black;
+    /* 设置该属性为 9998 仅比弹框小一级确保除了弹框之外可以盖住所有元素 */
+    z-index: 9998;
+    /* 设置元素的透明度 */
+    opacity: 0.6;
+    /* 透明度兼容 ie 写法 */
+    filter: alpha(opacity=60);
+}
+
+.recv_con > .recv > .recv_info > .recv_form {
+    text-indent: 15px;
+    margin-top: 5px;
+}
+
+.recv_con > .recv > .recv_info > .recv_title {
+    margin: 0 0 0 200px;
+}
+
+.recv_con > .recv > .recv_info > hr {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.recv_con > .recv > .recv_info > .recv_form > p > input {
+    width: 70%;
+    height: 30px;
+    border: 1px solid FloralWhite;
+    background-color: FloralWhite;
+    /* 清除输入框默认 padding */
+    padding: 0;
+    /* 去掉输入框点击时的高亮框 */
+    outline: none;
+    border-radius: 3px;
+    text-indent: 15px;
+    font-size: 13px;
+}
+
+.recv_con > .recv > .recv_info > .recv_form > .form_recv {
+    width: 60px;
+    height: 30px;
+    background-color: yellowgreen;
+    float: right;
+    margin-right: 40px;
+    border-radius: 5px;
+    outline: none;
+    /*display: none;*/
+}
+
+.recv_con > .recv > .recv_info > .recv_form > p > .form_hide_tag {
+    display: none;
+}
+
+.recv_con > .recv > .recv_info > #hint_info {
+    font-size: 12px;
+    margin-bottom: 10px;
+    text-indent: 15px;
+    color: blue;
+}
+
+.recv_con > .recv > .recv_info > #hint_info > strong {
+    color: #FF9632;
+}
+
+/*    新增 ===============================*/
+.Receipt {
+    text-indent: 25px;
+}
+
+.Receipt > span {
+    font-size: 12px;
+}
+
+.Receipt > #Receipt_btn {
+    font-size: 13px;
+    color: white;
+    background-color: #5599FF;
+    border-radius: 5px;
+}
+
+.Receipt > #Receipt_btn_active {
+    width: 80px;
+    height: 30px;
+    background-color: #eee;
+}
+
+.mateInfo {
+    /*padding: 5px 5px 5px 5px;*/
+    background-color: #F0F8FF;
+    border-radius: 8px;
+    border: 1px solid #FFD700;
+    user-select: none;
+}
+
+/*退货处理面板样式*/
+.return_goods {
+    display: none;
+}
+
+.goods_table {
+    width: 100%;
+    height: 100%;
+    border: 1px solid #eee;
+    border-radius: 6px;
+    padding: 8px;
+    overflow: hidden;
+}
+
+.goods_table > p > label, .goods_table > p > input {
+    margin-left: 5px;
+}
+
+.goods_table > .return_btn {
+    width: 60px;
+    height: 30px;
+    float: right;
+    font-weight: bold;
+    margin-right: 15px;
+    border-radius: 6px;
+    text-align: center;
+    line-height: 30px;
+    background-color: #5599FF;
+}
+
+.goods_table > .return_btn:hover {
+    cursor: pointer;
+    color: white;
+}
+
+/* 错误弹框提示样式 */
+/* 设置弹框默认不显示 */
+.err_con {
+    display: none;
+}
+
+.err_con > .err {
+    width: 500px;
+    /*height: 300px;*/
+    padding: 5px 0 5px 0;
+    border: 1px solid blue;
+    background: white;
+    border-radius: 8px;
+    /* 设置固定定位，让弹框相对于浏览器窗口来定位，同时可以盖住其他元素 */
+    position: fixed;
+    /* 定位元素水平垂直居中的技巧 */
+    left: 50%;
+    margin-left: -251px;
+    top: 40%;
+    margin-top: -151px;
+    /* 将弹框层级设置成一个很大的值，保证它可以盖住其它任何元素 */
+    z-index: 9999;
+}
+
+/* 弹框透明背景样式 */
+.err_mask {
+    position: fixed;
+    /* 设置为固定定位，宽度和高度就可以参照浏览器窗口的大小来设置 */
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    background: black;
+    /* 设置该属性为 9998 仅比弹框小一级确保除了弹框之外可以盖住所有元素 */
+    z-index: 9998;
+    /* 设置元素的透明度 */
+    opacity: 0.6;
+    /* 透明度兼容 ie 写法 */
+    filter: alpha(opacity=60);
+}
+
+.err_con > .err > .err_info {
+    text-align: center;
+    font-weight: bold;
+    color: red;
+    overflow: hidden;
+}
+
+.err_con > .err {
+    width: 80%;
+    padding: 5px 0 5px 0;
+    border: 1px solid blue;
+    background: white;
+    border-radius: 8px;
+    position: fixed;
+    left: 50%;
+    margin-left: -160px;
+    top: 40%;
+    margin-top: -151px;
+    z-index: 9999;
+}
+
+.err_con > .err > .err_info > hr {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.err_con > .err > .err_btn {
+    float: right;
+    margin-right: 30px;
+    border-radius: 6px;
+    background-color: #5599FF;
+}
+
+.err_con > .err > .err_btn:hover {
+    color: white;
+}
+
+/* 去除 input-group 组label 标签的背景和边框*/
+.input-group-addon {
+    border: 0;
+    background-color: #fff;
+    font-weight: bold;
+    user-select: none;
+}
+
+.returnInfo {
+    width: 100%;
+    padding: 0 0 0 10%;
+    display: none;
+}
+
+.returnInfo > .return_input_group {
+    margin-left: 5px;
+}
+
+.return_input_group > .returnName, .returnPhone, .returnAddr {
+    margin-top: 5px;
+}
+
+.selectAddr > select {
+    border-radius: 6px;
+    height: 30px;
+    background-color: #FFEFD5;
+}
+
+.footer {
+    width: 100%;
+    color: white;
+    float: left;
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+    margin-bottom: 30px;
+}
+
+/* 我的工单样式 */
+.workOrder {
+    width: 100%;
+    height: 30px;
+    padding: 0 0 10px 0;
+    overflow: hidden;
+    border-bottom: 1px solid #eee;
+}
+
+.workOrder > li {
+    float: left;
+    padding: 0 10px;
+    line-height: 30px;
+    margin-left: 10px;
+    user-select: none;
+}
+
+.workOrder > li:hover {
+    cursor: pointer;
+    font-weight: bolder;
+}
+
+.workOrder > span {
+    float: right;
+}
+
+.my_group > #hint {
+    user-select: none;
+    background-color: blanchedalmond;
+    margin-left: 20px;
+}
+
+/* 客户工单表格样式 */
+#scrollTable {
+    width:100%;
+    /*border: 1px solid #eee;!*table没有外围的border，只有内部的td或th有border*!*/
+}
+#scrollTable table {
+    border-collapse:collapse; /*统一设置两个table为细线表格*/
+}
+/*表头 div的第一个子元素**/
+#scrollTable table.thead{
+    width:100%;
+    border-bottom: 1px solid #ccc;
+    border-top: 1px solid #ccc;
+}
+/*表头*/
+#scrollTable table.thead th{
+    /*border: 1px solid #EB8;*/
+    border-right:#eee;
+    text-align: center;
+    /*color:#fff;*/
+    background: #eee;
+}
+
+/*能带滚动条的表身*/
+/*div的第二个子元素*/
+#scrollTable div{
+    width:100%;
+    height:300px;
+    overflow:auto;/*必需*/
+}
+
+/*能带滚动条的表身的正体*/
+#scrollTable table.tbody{
+    width:100%;
+    border-bottom: 1px solid #eee;
+    border-top: 1px solid #eee;
+    color:#666;
+}
+
+/*能带滚动条的表身的格子*/
+#scrollTable table.tbody td{
+    border: 1px solid #eee;
+    padding: 3px 0;
+    text-align: center;
+    color: black;
+}

@@ -1,0 +1,90 @@
+{{define "template/login.html"}}
+<!doctype html>
+<html lang="zh_CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+          integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+    <!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css"
+          integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"
+            integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd"
+            crossorigin="anonymous"></script>
+    <script type="application/javascript" src="/static/js/jquery-1.12.4.min.js"></script>
+    <link type="image/x-ico" rel="icon" href="/static/img/title.ico">
+    <link rel="stylesheet" href="/static/css/login.css">
+    <title>{{.title}}</title>
+</head>
+<body>
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">
+                <img alt="Brand" src="/static/img/logo.jpg" id="brand">
+            </a>
+            <div class="nav_title">链力电子售后追踪平台</div>
+        </div>
+    </div>
+</nav>
+<!-- 使用 div 标签将弹框内容包裹，用来显示和隐藏弹框，当点击某按钮时为该标签添加 style="display:block;" 属性则显示弹框 -->
+<div class="pop_con" style="display:block;">
+    <!-- 弹框内容 -->
+    <div class="pop">
+        <h4>东莞市链力电子有限公司</h4>
+        <hr>
+        <div class="login_pop">
+            <form method="post" class="form">
+                <p id="phone">联系方式：<input type="text" name="phone" placeholder="请输入联系方式"></p>
+                <p class="hideInfo">
+                    <span id="errMsg">{{.errMsg}}</span><span>
+                    <a href="/add_info" id="addInfo">注册</a></span>
+                </p>
+            </form>
+            <button id="btn">登录</button>
+        </div>
+    </div>
+    <!-- 该 div 用来设置弹框的整个背景，即弹框透明的部分 -->
+    <div class="mask"></div>
+</div>
+</body>
+<script type="application/javascript">
+    $("#btn").click(function () {
+        var phone = $("#phone").children("input").val()
+        $.ajax({
+            url: "/login",
+            type: "POST",
+            data: {
+                phone: phone
+            },
+            success: function (data) {
+                if (data["errForMsg"]) {
+                    $("#errMsg").css("display", "block").text(data["errForMsg"]);
+                    $("#btn").css("display", "block");
+                }
+                if (data["errMsg"]) {
+                    $("#errMsg").css("display", "block").text(data["errMsg"]);
+                    $("#btn").css("display", "none");
+                    $("#addInfo").css("display", "block");
+                }
+                if (data["sqlErrMsg"]) {
+                    $("#errMsg").css("display", "block").text(data["sqlErrMsg"]);
+                    $("#btn").css("display", "block");
+                }
+                if (data["success"]) {
+                    window.location.href = "/";
+                }
+            },
+        });
+    });
+</script>
+</html>
+{{end}}

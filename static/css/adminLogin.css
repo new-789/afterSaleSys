@@ -1,0 +1,144 @@
+
+.navbar-default {
+    border-color: blue;
+}
+
+.container-fluid {
+    background-color: darkorange;
+}
+
+.navbar-header {
+    width: 100%;
+}
+
+.navbar-brand > img {
+    width: 35px;
+    height: 30px;
+    border-radius: 5px;
+    margin-top: -6px;
+}
+
+.nav_title {
+    text-align: center;
+    line-height: 50px;
+    font-size: 17px;
+    color: blue;
+}
+
+.pop {
+    width: 342px;
+    padding: 0;
+    border: 2px solid orange;
+    background: #666;
+    /* 设置固定定位，让弹框相对于浏览器窗口来定位，同时可以盖住其他元素 */
+    position: fixed;
+    /* 定位元素水平垂直居中的技巧 */
+    left: 50%;
+    margin-left: -170px;
+    top: 50%;
+    margin-top: -130px;
+    border-radius: 8px;
+    /* 将弹框层级设置成一个很大的值，保证它可以盖住其它任何元素 */
+    z-index: 9999;
+}
+
+/* 弹框透明背景样式 */
+.mask {
+    position: fixed;
+    /* 设置为固定定位，宽度和高度就可以参照浏览器窗口的大小来设置 */
+    width: 100%;
+    height: 100%;
+    left: 0px;
+    top: 0px;
+    background: black;
+    /* 设置该属性为 9998 仅比弹框小一级确保除了弹框之外可以盖住所有元素 */
+    z-index: 9998;
+    /* 设置元素的透明度 */
+    opacity: 0.7;
+    /* 透明度兼容 ie 写法 */
+    filter: alpha(opacity=40);
+}
+
+.pop > h4 {
+    /*text-align: center;*/
+    color: white;
+    line-height: 15px;
+    margin-left: 15px;
+}
+
+hr {
+    margin: 10px 0 10px 0;
+}
+
+.pop > .login_pop {
+    width: 500px;
+    padding: 0;
+}
+
+.login_pop > .form > p {
+    margin-left: 20px;
+    margin-bottom: 0;
+    color: white;
+    /*margin-bottom: 30px;*/
+    font-size: 18px;
+}
+
+button, input, optgroup, select, textarea {
+    color: #333333;
+}
+
+.login_pop > .form > #username > input, #passwd > input {
+    width: 230px;
+    height: 30px;
+    border: 1px solid dodgerblue;
+    border-radius: 6px;
+    font-size: 15px;
+    margin-top: 5px;
+    text-indent: 10px;
+    margin-bottom: 30px;
+}
+
+input:focus {
+    outline-color: slateblue;
+    border: 1px solid;
+}
+
+.login_pop > #btn {
+    width: 60px;
+    height: 30px;
+    background: #28a745;
+    border: 0;
+    color: white;
+    font-size: 16px;
+    float: right;
+    margin-right: 170px;
+    margin-bottom: 6px;
+    border-radius: 6px;
+}
+
+.login_pop > .form > #btn > input:hover {
+    background: #34d058;
+    color: #333;
+}
+
+.login_pop > .form > #err {
+    color: red;
+    margin-left: 50px;
+    font-size: 14px;
+}
+
+.mask > img {
+    width: 100%;
+    height: 100%;
+}
+
+/* 设置弹框默认不显示 */
+.pop_con {
+    display: block;
+}
+
+.login_pop > .errMsg {
+    color: coral;
+    margin-left: 25px;
+    font-size: 14px;
+}

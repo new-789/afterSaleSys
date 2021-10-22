@@ -1,0 +1,340 @@
+{{define "template/showClients.html"}}
+<!doctype html>
+<html lang="zh_CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <script type="application/javascript" src="/static/js/jquery-1.12.4.min.js"></script>
+    <script type="text/javascript" src="/static/js/jszip.min.js"></script>
+    <script type="text/javascript" src="/static/js/FileSaver.js"></script>
+    <script type="text/javascript" src="/static/js/excel-gen.js"></script>
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+          integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+    <!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css"
+          integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"
+            integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd"
+            crossorigin="anonymous"></script>
+    <link type="image/x-ico" rel="icon" href="/static/img/title.ico">
+    <link rel="stylesheet" href="/static/css/showClients.css">
+    <title>{{.title}}</title>
+</head>
+<body>
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/admin">
+                <img alt="Brand" src="/static/img/logo.jpg" id="brand">
+            </a>
+            <div class="nav_title">链力电子售后追踪平台</div>
+        </div>
+    </div>
+</nav>
+
+<div class="work_info">
+    <div class="panel panel-danger">
+        <div class="panel-heading" style="color: blue">
+            <strong>客户信息</strong>
+            <div class="import_excel">
+                <botton type="button" class="btn btn-success btn-block" id="import_client_excel">
+                    <i class="fa fa-file-excel-o" aria-hidden="true"></i>导出excel
+                </botton>
+            </div>
+        </div>
+        <div class="panel-body table_info">
+            <table class="table table-striped table-hover table-condensed" id="client_excel">
+                <tr>
+                    <th>客户编号</th>
+                    <th>客户名称</th>
+                    <th>联系方式</th>
+                    <th>客户地址</th>
+                </tr>
+                {{range .clients}}
+                <tr>
+                    <td>{{.Cid}}</td>
+                    <td>{{.UserName}}</td>
+                    <td>{{.Phone}}</td>
+                    <td>{{.Address}}</td>
+                </tr>
+                {{end}}
+            </table>
+            <!--            <div class="return_btn"><a href="/admin">返回</a></div>-->
+        </div>
+    </div>
+</div>
+
+<div class="send_con" style="display:none;">
+    <!-- 弹框内容 -->
+    <div class="send">
+        <div class="send_info">
+            <h3 class="send_title">发货信息</h3>
+            <hr>
+            <!--            action="/admin/upldss" -->
+            <form action="/admin/upldss" method="post" class="send_form" name="send_form">
+                <p>
+                    <label class="form_hide_tag">快递单号：</label>
+                    <input type="text" name="oldldssnum" value="" class="form_hide_tag">
+                </p>
+                <p>
+                    <label>快递单号：</label>
+                    <input type="text" name="newldssnum" placeholder="请输入快递单号">
+                </p>
+                <p>
+                    <label>快递公司：</label>
+                    <input type="text" name="ldssname" placeholder="请输入快递公司">
+                </p>
+                <p>
+                    <label>问题原因：</label>
+                    <input type="text" name="badrea" class="send_ret" readonly>
+                </p>
+                <p>
+                    <label>发货数量：</label>
+                    <input type="text" name="sentNum" placeholder="请输入快递公司">
+                </p>
+                <input type="submit" value="提交" class="form_sub">
+            </form>
+        </div>
+    </div>
+    <!--    &lt;!&ndash; 该 div 用来设置弹框的整个背景，即弹框透明的部分 &ndash;&gt;-->
+    <div class="send_mask"></div>
+</div>
+
+<div class="recv_con" style="display:none;">
+    <!-- 弹框内容 -->
+    <div class="recv">
+        <div class="recv_info">
+            <h3 class="recv_title">接收信息</h3>
+            <hr>
+            <form action="/admin/paid_up" method="post" class="recv_form" name="recv_form">
+                <p>
+                    <label class="">快递单号：</label>
+                    <input type="text" name="ldssnum" value="">
+                </p>
+                <p>
+                    <label>货物名称：</label>
+                    <input type="text" name="mateinfo" value="">
+                </p>
+                <p>
+                    <label>实收数量：</label>
+                    <input type="text" name="paid" placeholder="请填入真实收到的货物数量">
+                </p>
+                <input type="submit" value="提交" class="form_recv">
+            </form>
+        </div>
+    </div>
+    <!-- 该 div 用来设置弹框的整个背景，即弹框透明的部分 -->
+    <div class="recv_mask"></div>
+</div>
+<div class="cli_con" style="display:none;">
+    <!-- 弹框内容 -->
+    <div class="cli">
+        <div class="cli_info">
+            <h3 class="cli_title">客户信息</h3>
+            <hr>
+            <form action="/admin/cli_info" method="post" class="cli_form" name="cli_form">
+
+            </form>
+            <button class="cli_btn">返回</button>
+        </div>
+    </div>
+    <!-- 该 div 用来设置弹框的整个背景，即弹框透明的部分 -->
+    <div class="cli_mask"></div>
+</div>
+<!-- 维修按钮处理弹窗页面 -->
+<div class="Maintain_con" style="display:none;">
+    <!-- 弹框内容 -->
+    <div class="Maintain">
+        <div class="Maintain_info">
+            <h3 class="Maintain_title">工单信息</h3>
+            <hr>
+            <form action="/admin/upMaintain" method="post" class="Maintain_form" name="Maintain_form">
+                <p>
+                    <label>快递单号：</label>
+                    <input type="text" name="ldssnum" value="" class="form_hide_tag">
+                </p>
+                <p>
+                    <label>快递公司：</label>
+                    <input type="text" name="ldssName" placeholder="请输入快递单号" readonly>
+                </p>
+                <p>
+                    <label>货物名称：</label>
+                    <input type="text" name="mateName" placeholder="请输入快递公司" readonly>
+                </p>
+                <p>
+                    <label>客发数量：</label>
+                    <input type="text" name="amount" placeholder="请简述问题原因及处理结果" readonly>
+                </p>
+                <p>
+                    <label class="form_hide_tag">实收数量：</label>
+                    <input type="text" name="pmount" value="" class="form_hide_tag" readonly>
+                </p>
+                <p>
+                    <label>问题原因：</label>
+                    <input type="text" name="badRea" placeholder="请输入处理结果">
+                </p>
+                <p>
+                    <label>客户编号：</label>
+                    <input type="text" name="clientId" readonly>
+                </p>
+                <input type="submit" value="提交" class="Maintain_sub">
+            </form>
+            <!--            <button class="cli_btn">返回</button>-->
+        </div>
+    </div>
+    <!-- 该 div 用来设置弹框的整个背景，即弹框透明的部分 -->
+    <div class="Maintain_mask"></div>
+</div>
+<div class="footer">
+    <p>© 链力电子有限公司</p>
+</div>
+</body>
+
+<script type="application/javascript">
+    // 接收按钮处理方法
+    function recv(val) {
+        let recvForm = $(".recv_form").children("p")
+        $(".recv_con").css("display", "block")
+        recvForm.children("input[name='ldssnum']").val($(val).parent("td").prevAll().eq(6).text())
+        recvForm.children("input[name='mateinfo']").val($(val).parent("td").prevAll().eq(4).text())
+    }
+
+    // 接收提交时防止填写信息为空
+    let recvForm = document.forms["recv_form"]
+    ldssnum = recvForm.elements["ldssnum"]
+    mateinfo = recvForm.elements["mateinfo"]
+    paid = recvForm.elements["paid"]
+    ldssnum.input = function () {
+        ldnum = ldssnum.value
+        if (ldnum === "") {
+            alert("不允许为空，请返回重新填写！")
+            $(".form_recv").css("display", "none")
+        }
+    };
+
+    mateinfo.oninput = function () {
+        mateInfo = mateinfo.value
+        if (mateInfo === "") {
+            alert("不允许为空，请返回重新填写！")
+            $(".form_recv").css("display", "none")
+        }
+    };
+
+    paid.oninput = function () {
+        pad = paid.value
+        if (pad === "") {
+            alert("不允许为空，请返回重新填写！")
+            $(".form_recv").css("display", "none")
+        } else {
+            $(".form_recv").css("display", "block")
+        }
+    };
+
+    // 发货按钮处理方法
+    function send(val) {
+        $(".send_con").css("display", "block")
+        $(".form_hide_tag").val($(val).parent("td").prevAll().eq(7).text())
+        $(".send_ret").val($(val).parent("td").prevAll().eq(1).text())
+    }
+
+    // 发货提交时防止填写信息为空
+    var subForm = document.forms["send_form"]
+    newNum = subForm.elements["newldssnum"]
+    ldsName = subForm.elements["ldssname"]
+    sentNum = subForm.elements["sentNum"]
+    newNum.oninput = function () {
+        if (newNum.value === "") {
+            alert("不允许为空，请返回重新填写！")
+            $(".form_sub").css("display", "none")
+        }
+    };
+    ldsName.oninput = function () {
+        if (ldsName.value === "") {
+            alert("不允许为空，请返回重新填写！")
+            $(".form_sub").css("display", "none")
+        }
+    };
+
+    sentNum.oninput = function () {
+        if (sentNum.value === "") {
+            alert("不允许为空，请返回重新填写！")
+            $(".form_sub").css("display", "none")
+        } else {
+            $(".form_sub").css("display", "block")
+        }
+    }
+
+    // 维修中按钮处理方法
+    function send_mate(val) {
+        let preTag = $(".Maintain_form").children("p")
+        $(".Maintain_con").css("display", "block")
+        preTag.children("input[name='ldssnum']").val($(val).parent("td").prevAll().eq(6).text())
+        preTag.children("input[name='ldssName']").val($(val).parent("td").prevAll().eq(5).text())
+        preTag.children("input[name='mateName']").val($(val).parent("td").prevAll().eq(4).text())
+        preTag.children("input[name='amount']").val($(val).parent("td").prevAll().eq(3).text())
+        preTag.children("input[name='pmount']").val($(val).parent("td").prevAll().eq(2).text())
+        preTag.children("input[name='clientId']").val($(val).parent("td").prevAll().eq(0).text())
+    }
+
+    // 点击客户id事件
+    function cliId(val) {
+        $(".cli_con").css("display", "block");
+        $.ajax({
+            url: "/admin/cli_info",
+            type: "POST",
+            data: {"clientId": $(val).text()},
+            success: function (data) {
+                if (data["errMsg"]) {
+                    alert(val["errMsg"])
+                }
+                if (data["success"]) {
+                    console.log(data["success"]["cid"])
+                    let htmlStr = `
+                        <p>
+                            <label class="">客户编号：</label>
+                            <input type="text" name="clientNum" value="` + data["success"]["cid"] + `" readonly>
+                        </p>
+                        <p>
+                            <label class="">客户名称：</label>
+                            <input type="text" name="clientName" value="` + data["success"]["username"] + `" readonly>
+                        </p>
+                        <p>
+                            <label class="">联系方式：</label>
+                            <input type="text" name="clientPhone" value="` + data["success"]["phone"] + `" readonly>
+                        </p>
+                        <p>
+                            <label class="">客户地址：</label>
+                            <textarea cols="44" rows="1"  name="clientAddress" readonly>` + data["success"]["address"] + `</textarea>
+                        </p>
+                            `
+                    $(".cli_form").append(htmlStr)
+                }
+            }
+        });
+    }
+
+    $(".cli_btn").click(function () {
+        window.location.href = "/admin";
+    });
+
+    // 导出excel逻辑实现
+    $(document).ready(function () {
+        let excel = new ExcelGen({
+            "src_id": "client_excel",
+            "show_header": "true",
+        });
+        $("#import_client_excel").click(function () {
+            excel.generate();
+        });
+    });
+</script>
+</script>
+</html>
+{{end}}
