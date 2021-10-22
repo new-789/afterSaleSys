@@ -10,10 +10,7 @@ import (
 // 推送微信消息模块
 
 //var saleNameMap = map[string]string{
-//	"陈小兵": "业务", "李珊珊": "业务", "林建立": "业务", "余燕珊": "", "黄静": "美工",
-//	"蒋镇霞": "总经办", "吴思燕": "PMC", "康磊": "", "庞辉": "", "郭伟": "", "程途": "商务",
-//	"刘燕娟": "商务", "陈文君": "商务", "李广升": "运营", "傅宝锋": "客服", "李冬杏": "运营",
-//	"徐锦珊": "商务", "庄雪怡": "商务", "王芷君": "商务",
+//	该 map 用来定义需要推送的,企业微信内部的人名(个人姓名),可以是多个
 //}
 
 // PushMsgToWechat 开始推送消息数据
@@ -63,19 +60,10 @@ func joinName(uname string) (username string) {
 	//	username = "链力-客服-" + uname
 	//case "运营":
 	//	username = "链力-运营-" + uname
-	//default: // 销售为郭伟、庞辉、康磊时提醒谁？
-	//	if uname == "郭伟" {
-	//		username = "A 链力~" + uname
-	//	} else if uname == "康磊" {
-	//		username = "链力-" + uname
-	//	} else if uname == "庞辉" {
-	//		username = uname + "15920648872"
-	//	} else if uname == "余燕珊" {
-	//		username = "链力-" + uname
-	//	}
+	//default: // 当销售人员在企业微信中的名称比较特殊时可在该节点下单独进行拼接？
 	//	return ""
 	//}
 
-	username = "链力-技术部-朱修建"
+	username = "测试用名称"
 	return username
 }
