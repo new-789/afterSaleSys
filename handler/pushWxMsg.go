@@ -64,6 +64,6 @@ func joinName(uname string) (username string) {
 	//	return ""
 	//}
 
-	username = "测试用名称"
+	username = "链力-技术部-朱修建"
 	return username
 }

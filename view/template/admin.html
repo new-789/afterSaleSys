@@ -267,6 +267,10 @@
             <hr>
             <form action="/admin/paid_up" method="post" class="recv_form" name="recv_form">
                 <p>
+                    <label class="form_hide_tag">单号：</label>
+                    <input type="text" name="TableId" value="" class="ldssNum">
+                </p>
+                <p>
                     <label class="">快递单号：</label>
                     <input type="text" name="ldssnum" value="" readonly>
                 </p>
@@ -467,6 +471,7 @@
     function recv(val) {
         let recvForm = $(".recv_form").children("p");
         $(".recv_con").css("display", "block");
+        recvForm.children("input[name='TableId']").val($(val).parent("td").prevAll().eq(17).text());
         recvForm.children("input[name='ldssnum']").val($(val).parent("td").prevAll().eq(15).text());
         recvForm.children("input[name='mateinfo']").val($(val).parent("td").prevAll().eq(13).text());
         recvForm.children("input[name='bead_info']").val($(val).parent("td").prevAll().eq(11).text());

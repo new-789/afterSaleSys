@@ -486,8 +486,9 @@ func upLdss(c *gin.Context) {
 		c.HTML(301, "template/error.html", gin.H{"errMsg": "后台数据库操作错误,请联系技术解决后重试"})
 		return
 	}
-	msg := "**Hi,我是小链！您有一份新的售后工单以发出返回给您的客户，返回信息如下：**\n" +
+	msg := "**Hi,我是小链！您有一份新的售后工单已发出返回给您的客户，返回信息如下：**\n" +
 		">" +
+		"工单编号: <font color='info'>" + ldssTableId + "</font>\n" +
 		"发货单号: <font color='info'>" + newldssnum + "</font>\n" +
 		"发出商品: <font color='info'>" + remateInfo + "</font>\n" +
 		"发货备注: <font color='info'>" + remark + "</font>\n" +
@@ -523,6 +524,7 @@ func paidUpLdss(c *gin.Context) {
 	mateinfo := c.PostForm("mateinfo")
 	amount := c.PostForm("amount")
 	beadInfo := c.PostForm("bead_info")
+	TableId := c.PostForm("TableId")
 	anum, err := strconv.Atoi(amount)
 	if err != nil {
 		c.HTML(301, "template/error.html", gin.H{"errMsg": "提交的实收数量数据格式有误,或有必填项未填写，检查后重试"})
@@ -581,6 +583,7 @@ func paidUpLdss(c *gin.Context) {
 	// 初始化消息数据
 	msg := "**Hi,我是小链！您有一份新的售后工单已到售后部门，需要您进行跟踪处理。信息如下：**\n" +
 		">" +
+		"工单编号: <font color='info'>" + TableId + "</font>\n" +
 		"快递单号: <font color='info'>" + ldssnum + "</font>\n" +
 		"商品信息: <font color='info'>" + mateinfo + "</font>\n" +
 		"问题原因: <font color='info'>" + beadInfo + "</font>\n" +

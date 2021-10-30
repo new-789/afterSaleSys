@@ -296,6 +296,7 @@
     function recv(val) {
         let recvForm = $(".recv_form").children("p")
         $(".recv_con").css("display", "block")
+        recvForm.children("input[name='TableId']").val($(val).parent("td").prevAll().eq(17).text());
         recvForm.children("input[name='ldssnum']").val($(val).parent("td").prevAll().eq(15).text());
         recvForm.children("input[name='mateinfo']").val($(val).parent("td").prevAll().eq(13).text());
         recvForm.children("input[name='amount']").val($(val).parent("td").prevAll().eq(12).text());
