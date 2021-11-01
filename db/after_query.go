@@ -419,8 +419,25 @@ func GetWorkOrderInfo(stat, cid int) (data []*Ldss, err error) {
 	return
 }
 
+// QueryClientInfo 根据快递单号和物料名称或客户姓名查询客户信息
 func QueryClientInfo(ldssnum, mate string) (data []*ClientAddr, err error) {
-	queryStr := `
+	switch mate {
+	case "":
+		queryStr := `
+				select 
+					cid,username,phone,address 
+				from 
+					clientAddr 
+				where 
+					username = ?;
+				`
+		err = Db.Select(&data, queryStr, ldssnum)
+		if err != nil {
+			fmt.Println("=============== 搜索时按照客户姓名查询客户ID失败 ============", err)
+			return nil, err
+		}
+	default:
+		queryStr := `
 				select 
 					cid,username,phone,address 
 				from 
@@ -428,10 +445,11 @@ func QueryClientInfo(ldssnum, mate string) (data []*ClientAddr, err error) {
 				where 
 					cid = (select c_id from ldss where ldssnum=? and mateInfo=?);
 				`
-	err = Db.Select(&data, queryStr, ldssnum, mate)
-	if err != nil {
-		fmt.Println("=============== 推送微信消息时根据快递单号和物料名称查询客户信息失败 ============", err)
-		return nil, err
+		err = Db.Select(&data, queryStr, ldssnum, mate)
+		if err != nil {
+			fmt.Println("=============== 推送微信消息时根据快递单号和物料名称查询客户信息失败 ============", err)
+			return nil, err
+		}
 	}
 	return
 }

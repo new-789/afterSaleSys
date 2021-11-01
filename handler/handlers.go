@@ -102,7 +102,6 @@ func login(c *gin.Context) {
 				c.JSON(200, map[string]string{"sqlErrMsg": "后台服务错误，请稍后重试....."})
 				return
 			}
-			//c.Redirect(301, "/")
 			c.JSON(200, map[string]string{"success": "登录成功"})
 			//c.HTML(301, "template/index.html",map[string]string{"success": "登录成功"})
 			return
@@ -122,6 +121,7 @@ func logOut(c *gin.Context) {
 		c.JSON(200, map[string]string{"errMsg": "退出失败！"})
 		return
 	}
+	c.Redirect(301, "/admin")
 }
 
 // addInfo 注册方法
@@ -359,6 +359,24 @@ func searchInfo(c *gin.Context) {
 		c.JSON(200, map[string]string{"errMsg": "获取参数错误"})
 		return
 	}
+
+	// TODO 新增 ............判断是否为中文,是则根据客户姓名查找客户id
+	if util.IsChinese(ldssnum) {
+		info, err := db.QueryClientInfo(ldssnum, "")
+		if err != nil {
+			fmt.Println("+++++++++++++++ 根据客户姓名查询客户 id 失败 ++++++++++++++++++", err)
+			c.HTML(301, "template/error.html", gin.H{"errMsg": "根据客户姓名查询客户 id 失败,请联系技术解决后重试"})
+			return
+		}
+		if len(info) > 0 {
+			for _, val := range info {
+				ldssnum = strconv.Itoa(val.Cid)
+				fmt.Println("===================================>", ldssnum)
+			}
+		}
+	}
+	// todo 以上新增
+
 	ldssArry, err := db.SelectLdssData(ldssnum)
 	if err != nil {
 		c.JSON(200, map[string]string{"errMsg": "后台数据服务错误，请联系技术人员解决!"})
@@ -583,17 +601,17 @@ func paidUpLdss(c *gin.Context) {
 	// 初始化消息数据
 	msg := "**Hi,我是小链！您有一份新的售后工单已到售后部门，需要您进行跟踪处理。信息如下：**\n" +
 		">" +
-		"工单编号: <font color='info'>" + TableId + "</font>\n" +
-		"快递单号: <font color='info'>" + ldssnum + "</font>\n" +
-		"商品信息: <font color='info'>" + mateinfo + "</font>\n" +
-		"问题原因: <font color='info'>" + beadInfo + "</font>\n" +
-		"返回数量: <font color='info'>" + amount + "</font>\n" +
+		"工单编号: <font color='warning'>" + TableId + "</font>\n" +
+		"快递单号: <font color='warning'>" + ldssnum + "</font>\n" +
+		"商品信息: <font color='warning'>" + mateinfo + "</font>\n" +
+		"问题原因: <font color='warning'>" + beadInfo + "</font>\n" +
+		"返回数量: <font color='warning'>" + amount + "</font>\n" +
 		"\n" +
 		"如有疑问可通过下面的客户信息联系客户:\n" +
 		">" +
-		"客户姓名: <font color='info'>" + dataSli[0].UserName + "</font>\n" +
-		"联系方式: <font color='info'>" + dataSli[0].Phone + "</font>\n" +
-		"客户地址: <font color='info'>" + *dataSli[0].Address + "</font>\n" +
+		"客户姓名: <font color='warning'>" + dataSli[0].UserName + "</font>\n" +
+		"联系方式: <font color='warning'>" + dataSli[0].Phone + "</font>\n" +
+		"客户地址: <font color='warning'>" + *dataSli[0].Address + "</font>\n" +
 		"\n" +
 		"**还请您百忙之中抽出一点时间尽快处理，公司的发展离不开您，感谢您的理解和付出，谢谢！**"
 	wg.Add(1)
